@@ -37,7 +37,7 @@ class check_mk::install (
       ensure => installed,
     }
   }
-  $etc_dir = "/omd/sites/${site}/etc"
+  $etc_dir = "/opt/omd/sites/${site}/etc"
   exec { 'omd-create-site':
     command => "/usr/bin/omd create ${site}",
     creates => $etc_dir,
