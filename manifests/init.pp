@@ -8,6 +8,8 @@ class check_mk (
   $workspace        = $check_mk::params::workspace,
 ) inherits check_mk::params {
 
+  notify { $filestore: }
+
   class { 'check_mk::install':
     filestore => $filestore,
     package   => $package,
