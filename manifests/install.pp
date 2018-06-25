@@ -15,14 +15,22 @@ class check_mk::install (
       source  => "${filestore}/${package}",
       require => File[$workspace],
     }
-    package { $package:
-      ensure   => installed,
-      source   => "${workspace}/${package}",
-      require  => File["${workspace}/${package}"],
+    if $package =~ /^(.*)\.(rpm|deb)$/ {
+      $package_name = $1
+      $type         = $2
+      package { $package_name:
+        ensure   => installed,
+        provider => $type,
+        source   => "${workspace}/${package}",
+        require  => File["${workspace}/${package}"],
+      }
+    } else {
+      fail ("'${package_name}' neither sepcifies a deb nor a rpm package")
     }
   }
   else {
-    package { $package:
+    $package_name = $package
+    package { $package_name:
       ensure => installed,
     }
   }
@@ -30,6 +38,6 @@ class check_mk::install (
   exec { 'omd-create-site':
     command => "/usr/bin/omd create ${site}",
     creates => $etc_dir,
-    require => Package[$package],
+    require => Package[$package_name],
   }
 }
