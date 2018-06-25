@@ -22,6 +22,7 @@ class check_mk (
   class { 'check_mk::service':
     checkmk_service => $checkmk_service,
     httpd_service   => $httpd_service,
+    site            => $site,
     require         => Class['check_mk::config'],
   }
 }

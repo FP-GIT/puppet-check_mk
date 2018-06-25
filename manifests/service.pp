@@ -1,6 +1,7 @@
 class check_mk::service (
   $checkmk_service,
   $httpd_service,
+  $site,
 ) {
   if ! defined(Service[$httpd_service]) {
     service { $httpd_service:
@@ -18,4 +19,9 @@ class check_mk::service (
     ensure => 'running',
     enable => true,
   }
+  ~>exec { 'start ${site}':
+    command => "/usr/bin/omd start ${site}",
+    unless  => "/usr/bin/omd status ${site} | /bin/grep \"OVERALL 1\"",
+  }
+
 }

@@ -37,10 +37,9 @@ class check_mk::install (
       ensure => installed,
     }
   }
-  $etc_dir = "/opt/omd/sites/${site}/etc"
   exec { 'omd-create-site':
     command => "/usr/bin/omd create ${site}",
-    creates => $etc_dir,
+    unless  => "/usr/bin/omd sites | /bin/grep ${site}",
     require => Package[$package_name],
   }
 }
