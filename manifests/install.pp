@@ -23,7 +23,7 @@ class check_mk::install (
         provider => $type ? {
           'deb' => 'dpkg',
           'rpm' => 'rpm',
-        }
+        },
         source   => "${workspace}/${package}",
         require  => File["${workspace}/${package}"],
       }
