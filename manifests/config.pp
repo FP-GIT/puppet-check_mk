@@ -49,7 +49,7 @@ class check_mk::config (
   $site_conf = "${omd_site_path}/${site}/etc/omd/site.conf"
   file { $site_conf:
     ensure  => 'file',
-    content => epp('puppet:///modules/puppet-check_mk/site.conf.epp'),
+    content => epp('puppet:///modules/check_mk/site.conf.epp'),
     owner   => $site,
     group   => $site,
     mode    => '0644',
