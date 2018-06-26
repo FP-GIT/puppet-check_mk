@@ -24,7 +24,7 @@ class check_mk::config (
                               $nagvis_urls,
   Boolean                     $pnp4nagios,
   Boolean                     $livestatus_tcp,
-  Stdlib::Port::Unprivileged  $livetstaus_tcp_port,
+  Stdlib::Port::Unprivileged  $livestatus_tcp_port,
   Boolean                     $nsca,
   Stdlib::Port::Unprivileged  $nsca_tcp_port,
 ) {
