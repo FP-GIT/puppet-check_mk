@@ -7,7 +7,7 @@ define check_mk::omd_config (
   $cmd = "/usr/bin/omd config ${site} set ${setting} '${value}'"
   $check_cmd = "/usr/bin/omd config ${site} show ${setting}"
   exec { $cmd:
-    unless => "/bin/bash -c \'[ `${check_cmd}` == \"${value}\" ]\'",
+    if => "/bin/bash -c \'[ `${check_cmd}` != \"${value}\" ]\'",
   }
 
 }
