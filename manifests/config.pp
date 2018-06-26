@@ -1,107 +1,100 @@
-
 class check_mk::config (
-  $site,
-  $host_groups = undef,
+  String                      $site,
+  Optional[String]            $admin_mail,
+  Boolean                     $autostart,
+  Enum['nagios', 'icinga']    $core,
+  Boolean                     $crontab,
+  Boolean                     $tmpfs,
+  Enum['own', 'none']         $apache_mode,
+  Stdlib::Ip_address          $apache_tcp_address,
+  Stdlib::Port::Unprivileged  $apache_tcp_port,
+  Enum['welcome', 'nagios', 'icinga', 'check_mk', 'nagvis', 'none']
+                              $default_gui,
+  Boolean                     $dokuwiki_auth,
+  Boolean                     $multisite_authorisation,
+  Boolean                     $multisite_cookie_auth,
+  Enum['classicui', 'exfoliation']
+                              $nagios_theme,
+  Boolean                     $mkeventd,
+  Boolean                     $mkeventd_snmptrap,
+  Boolean                     $mkeventd_syslog,
+  Boolean                     $mkeventd_syslog_tcp,
+  Enum['nagios', 'check_mk', 'thruk', 'none']
+                              $nagvis_urls,
+  Boolean                     $pnp4nagios,
+  Boolean                     $livestatus_tcp,
+  Boolean                     $nsca,
 ) {
-  #  $etc_dir = "/omd/sites/${site}/etc"
-  #  $bin_dir = "/omd/sites/${site}/bin"
-  #  file { "${etc_dir}/nagios/local":
-  #    ensure => directory,
-  #  }
-  #  file_line { 'nagios-add-check_mk-cfg_dir':
-  #    ensure  => present,
-  #    line    => "cfg_dir=${etc_dir}/nagios/local",
-  #    path    => "${etc_dir}/nagios/nagios.cfg",
-  #    require => File["${etc_dir}/nagios/local"],
-  #    notify  => Class['check_mk::service'],
-  #  }
-  #  file_line { 'add-guest-users':
-  #    ensure => present,
-  #    line   => 'guest_users = [ "guest" ]',
-  #    path   => "${etc_dir}/check_mk/multisite.mk",
-  #    notify => Class['check_mk::service'],
-  #  }
-  #  file { "${etc_dir}/check_mk/all_hosts_static":
-  #      ensure  => file,
-  #      content => template('check_mk/all_hosts_static.erb'),
-  #  }
-  #  concat { "${etc_dir}/check_mk/main.mk":
-  #    owner  => 'root',
-  #    group  => 'root',
-  #    mode   => 'u=rw,go=r',
-  #    notify => Exec['check_mk-refresh'],
-  #  }
-  #  # all_hosts
-  #  concat::fragment { 'all_hosts-header':
-  #    target  => "${etc_dir}/check_mk/main.mk",
-  #    content => "all_hosts = [\n",
-  #    order   => 10,
-  #  }
-  #  concat::fragment { 'all_hosts-footer':
-  #    target  => "${etc_dir}/check_mk/main.mk",
-  #    content => "]\n",
-  #    order   => 19,
-  #  }
-  #  Check_mk::Host <<| |>> {
-  #    target => "${etc_dir}/check_mk/main.mk",
-  #    notify => Exec['check_mk-refresh']
-  #  }
-  #  # local list of hosts is in /omd/sites/${site}/etc/check_mk/all_hosts_static and is appended
-  #  concat::fragment { 'all-hosts-static':
-  #    source => "${etc_dir}/check_mk/all_hosts_static",
-  #    target => "${etc_dir}/check_mk/main.mk",
-  #    order  => 18,
-  #  }
-  #  # host_groups
-  #  if $host_groups {
-  #    file { "${etc_dir}/nagios/local/hostgroups":
-  #      ensure => directory,
-  #    }
-  #    concat::fragment { 'host_groups-header':
-  #      target  => "${etc_dir}/check_mk/main.mk",
-  #      content => "host_groups = [\n",
-  #      order   => 20,
-  #    }
-  #    concat::fragment { 'host_groups-footer':
-  #      target  => "${etc_dir}/check_mk/main.mk",
-  #      content => "]\n",
-  #      order   => 29,
-  #    }
-  #    $groups = keys($host_groups)
-  #    check_mk::hostgroup { $groups:
-  #      dir        => "${etc_dir}/nagios/local/hostgroups",
-  #      hostgroups => $host_groups,
-  #      target     => "${etc_dir}/check_mk/main.mk",
-  #      notify     => Exec['check_mk-refresh']
-  #    }
-  #  }
-  #  # local config is in /omd/sites/${site}/etc/check_mk/main.mk.local and is appended
-  #  file { "${etc_dir}/check_mk/main.mk.local":
-  #    ensure => file,
-  #    owner  => 'root',
-  #    group  => 'root',
-  #    mode   => 'u=rw,go=r',
-  #  }
-  #  concat::fragment { 'check_mk-local-config':
-  #    source => "${etc_dir}/check_mk/main.mk.local",
-  #    target => "${etc_dir}/check_mk/main.mk",
-  #    order  => 99,
-  #  }
-  #  # re-read config if it changes
-  #  exec { 'check_mk-refresh':
-  #    command     => "/bin/su -l -c '${bin_dir}/check_mk -I' ${site}",
-  #    refreshonly => true,
-  #    notify      => Exec['check_mk-reload'],
-  #  }
-  #  exec { 'check_mk-reload':
-  #    command     => "/bin/su -l -c '${bin_dir}/check_mk -O' ${site}",
-  #    refreshonly => true,
-  #  }
-  #  # re-read inventory daily
-  #  cron { 'check_mk-refresh-inventory-daily':
-  #    user    => 'root',
-  #    command => "su -l -c '${bin_dir}/check_mk -O' ${site}",
-  #    minute  => 0,
-  #    hour    => 0,
-  #  }
+  if $admin_mail {
+    validate_email_address($admin_mail)
+  }
+
+  Check_mk::Omd_setting {
+    site => $site,
+  }
+
+  check_mk::omd_setting { 'ADMIN_MAIL':
+    value => $admin_mail,
+  }
+  check_mk::omd_setting { 'AUTOSTART':
+    value => $autostart,
+  }
+  check_mk::omd_setting { 'CORE':
+    value => $core,
+  }
+  check_mk::omd_setting { 'CRONTAB':
+    value => $crontab,
+  }
+  check_mk::omd_setting { 'TMPFS':
+    value => $tmpfs,
+  }
+  check_mk::omd_setting { 'APACHE_MODE':
+    value => $apache_mode,
+  }
+  check_mk::omd_setting { 'APACHE_TCP_ADDRESS':
+    value => $apache_tcp_address,
+  }
+  check_mk::omd_setting { 'APACHE_TCP_PORT':
+    value => $apache_tcp_port,
+  }
+  check_mk::omd_setting { 'DEFAULT_GUI':
+    value => $default_gui,
+  }
+  check_mk::omd_setting { 'DOKUWIKI_AUTH':
+    value => $dokuwiki_auth,
+  }
+  check_mk::omd_setting { 'MULTISITE_AUTHORISATION':
+    value => $multisite_authorisation,
+  }
+  check_mk::omd_setting { 'MULTISITE_COOKIE_AUTH':
+    value => $multisite_cookie_auth,
+  }
+  check_mk::omd_setting { 'NAGIOS_THEME':
+    value => $nagios_theme,
+  }
+  check_mk::omd_setting { 'MKEVENTD':
+    value => $mkeventd,
+  }
+  check_mk::omd_setting { 'MKEVENTD_SNMPTRAP':
+    value => $mkeventd_snmptrap,
+  }
+  check_mk::omd_setting { 'MKEVENTD_SYSLOG':
+    value => $mkeventd_syslog,
+  }
+  check_mk::omd_setting { 'MKEVENTD_SYSLOG_TCP':
+    value => $mkeventd_syslog_tcp,
+  }
+  check_mk::omd_setting { 'NAGVIS_URLS':
+    value => $nagvis_urls,
+  }
+  check_mk::omd_setting { 'PNP4NAGIOS':
+    value => $pnp4nagios,
+  }
+  check_mk::omd_setting { 'LIVESTATUS_TCP':
+    value => $livestatus_tcp,
+  }
+  check_mk::omd_setting { 'NSCA':
+    value => $nsca,
+  }
+
 }
