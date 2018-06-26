@@ -29,9 +29,9 @@ class check_mk::config (
     validate_email_address($admin_mail)
   }
 
-  #Check_mk::Omd_config {
-  #  site => $site,
-  #}
+  Check_mk::Omd_config {
+    site => $site,
+  }
 
   check_mk::omd_config { 'ADMIN_MAIL':
     value => $admin_mail,
