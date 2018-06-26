@@ -45,7 +45,7 @@ class check_mk (
     apache_mode             => $apache_mode,
     apache_tcp_address      => $apache_tcp_address,
     apache_tcp_port         => $apache_tcp_port,
-    default_gui             => $defualt_gui,
+    default_gui             => $default_gui,
     dokuwiki_auth           => $dokuwiki_auth,
     multisite_authorisation => $multisite_authorisation,
     multisite_cookie_auth   => $multisite_cookie_auth,
