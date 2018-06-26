@@ -1,5 +1,6 @@
 class check_mk::config (
   String                      $site,
+  Stdlib::Absolutepath        $omd_site_path,
   Optional[String]            $admin_mail,
   Boolean                     $autostart,
   Enum['nagios', 'icinga']    $core,
@@ -23,78 +24,34 @@ class check_mk::config (
                               $nagvis_urls,
   Boolean                     $pnp4nagios,
   Boolean                     $livestatus_tcp,
+  Stdlib::Port::Unprivileged  $livetstaus_tcp_port,
   Boolean                     $nsca,
+  Stdlib::Port::Unprivileged  $nsca_tcp_port,
 ) {
   if $admin_mail {
     validate_email_address($admin_mail)
   }
 
-  Check_mk::Omd_config {
-    site => $site,
-  }
+  $autostart_str                = bool2str($autostart, 'on', 'off')
+  $crontab_str                  = bool2str($crontab, 'on', 'off')
+  $dokuwiki_auth_str            = bool2str($dokuwiki_auth, 'on', 'off')
+  $livestatus_tcp_str           = bool2str($livestatus_tcp, 'on', 'off')
+  $mkeventd_str                 = bool2str($mkeventd, 'on', 'off')
+  $mkeventd_snmptrap_str        = bool2str($mkeventd_snmptrap, 'on', 'off')
+  $mkeventd_syslog_str          = bool2str($mkeventd_syslog, 'on', 'off')
+  $mkeventd_syslog_tcp_str      = bool2str($mkeventd_syslog_tcp, 'on', 'off')
+  $multisite_authorisation_str  = bool2str($multisite_authorisation, 'on', 'off')
+  $multisite_cookie_auth_str    = bool2str($multisite_cookie_auth, 'on', 'off')
+  $nsca_str                     = bool2str($nsca, 'on', 'off')
+  $pnp4nagios_str               = bool2str($pnp4nagios, 'on', 'off')
+  $tmpfs_str                    = bool2str($tmpfs, 'on', 'off')
 
-  check_mk::omd_config { 'ADMIN_MAIL':
-    value => $admin_mail,
+  $site_conf = "${omd_site_path}/${site}/etc/omd/site.conf"
+  file { $site_conf:
+    ensure  => 'file',
+    content => epp('puppet://modules/puppet-check_mk/site.conf.epp'),
+    owner   => $site,
+    group   => $site,
+    mode    => '0644',
   }
-  check_mk::omd_config { 'AUTOSTART':
-    value => $autostart,
-  }
-  check_mk::omd_config { 'CORE':
-    value => $core,
-  }
-  check_mk::omd_config { 'CRONTAB':
-    value => $crontab,
-  }
-  check_mk::omd_config { 'TMPFS':
-    value => $tmpfs,
-  }
-  check_mk::omd_config { 'APACHE_MODE':
-    value => $apache_mode,
-  }
-  check_mk::omd_config { 'APACHE_TCP_ADDRESS':
-    value => $apache_tcp_address,
-  }
-  check_mk::omd_config { 'APACHE_TCP_PORT':
-    value => $apache_tcp_port,
-  }
-  check_mk::omd_config { 'DEFAULT_GUI':
-    value => $default_gui,
-  }
-  check_mk::omd_config { 'DOKUWIKI_AUTH':
-    value => $dokuwiki_auth,
-  }
-  check_mk::omd_config { 'MULTISITE_AUTHORISATION':
-    value => $multisite_authorisation,
-  }
-  check_mk::omd_config { 'MULTISITE_COOKIE_AUTH':
-    value => $multisite_cookie_auth,
-  }
-  check_mk::omd_config { 'NAGIOS_THEME':
-    value => $nagios_theme,
-  }
-  check_mk::omd_config { 'MKEVENTD':
-    value => $mkeventd,
-  }
-  check_mk::omd_config { 'MKEVENTD_SNMPTRAP':
-    value => $mkeventd_snmptrap,
-  }
-  check_mk::omd_config { 'MKEVENTD_SYSLOG':
-    value => $mkeventd_syslog,
-  }
-  check_mk::omd_config { 'MKEVENTD_SYSLOG_TCP':
-    value => $mkeventd_syslog_tcp,
-  }
-  check_mk::omd_config { 'NAGVIS_URLS':
-    value => $nagvis_urls,
-  }
-  check_mk::omd_config { 'PNP4NAGIOS':
-    value => $pnp4nagios,
-  }
-  check_mk::omd_config { 'LIVESTATUS_TCP':
-    value => $livestatus_tcp,
-  }
-  check_mk::omd_config { 'NSCA':
-    value => $nsca,
-  }
-
 }

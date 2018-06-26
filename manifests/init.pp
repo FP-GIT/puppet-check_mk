@@ -4,6 +4,7 @@ class check_mk (
   Enum['httpd', 'apache2']    $httpd_service            = $check_mk::params::httpd_service,
   String                      $package                  = $check_mk::params::package,
   String                      $site                     = $check_mk::params::site,
+  Stdlib::Absolutepath        $omd_site_path            = $check_mk::params::omd_site_path,
   Optional[String]            $admin_mail               = $check_mk::params::admin_mail,
   Boolean                     $autostart                = $check_mk::params::autostart,
   Enum['nagios', 'icinga']    $core                     = $check_mk::params::core,
@@ -27,7 +28,9 @@ class check_mk (
                               $nagvis_urls              = $check_mk::params::nagvis_urls,
   Boolean                     $pnp4nagios               = $check_mk::params::pnp4nagios,
   Boolean                     $livestatus_tcp           = $check_mk::params::livestatus_tcp,
+  Stdlib::Port::Unprivileged  $livestatus_tcp_port      = $check_mk::params::livestatus_tcp_port,
   Boolean                     $nsca                     = $check_mk::params::nsca,
+  Stdlib::Port::Unprivileged  $nsca_tcp_port            = $check_mk::params::nsca_tcp_port,
 ) inherits check_mk::params {
 
   class { 'check_mk::install':
@@ -35,8 +38,9 @@ class check_mk (
     package   => $package,
     site      => $site,
   }
-  class { 'check_mk::config':
+  ->class { 'check_mk::config':
     site                    => $site,
+    omd_site_path           => $omd_site_path,
     admin_mail              => $admin_mail,
     autostart               => $autostart,
     core                    => $core,
@@ -57,14 +61,14 @@ class check_mk (
     nagvis_urls             => $nagvis_urls,
     pnp4nagios              => $pnp4nagios,
     livestatus_tcp          => $livestatus_tcp,
+    livestatus_tcp_port     => $livestatus_tcp_port,
     nsca                    => $nsca,
-    require                 => Class['check_mk::install'],
+    nsca_tcp_port           => $nsca_tcp_port,
   }
-  class { 'check_mk::service':
+  ~>class { 'check_mk::service':
     checkmk_service => $checkmk_service,
     httpd_service   => $httpd_service,
     site            => $site,
-    require         => Class['check_mk::config'],
   }
 
 }

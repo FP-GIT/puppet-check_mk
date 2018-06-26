@@ -1,0 +1,24 @@
+CONFIG_ADMIN_MAIL=<%= $admin_mail %>
+CONFIG_APACHE_MODE=<%= $apache_mode %>
+CONFIG_APACHE_TCP_ADDR=<%= $apache_tcp_address %>
+CONFIG_APACHE_TCP_PORT=<%= $apache_tcp_port %>
+CONFIG_AUTOSTART=<%= $autostart_str %>
+CONFIG_CORE=<%= $core %>
+CONFIG_CRONTAB=<%= $crontab_str %>
+CONFIG_DEFAULT_GUI=<%= $default_gui %>
+CONFIG_DOKUWIKI_AUTH=<%= $dokuwiki_auth_str %>
+CONFIG_LIVESTATUS_TCP=<%= $livestatus_tcp_str %>
+CONFIG_LIVESTATUS_TCP_PORT=<%= $livestatus_tcp_port %>
+CONFIG_MKEVENTD=<%= $mkeventd_str %>
+CONFIG_MKEVENTD_SNMPTRAP=<%= $mkeventd_snmptrap_str %>
+CONFIG_MKEVENTD_SYSLOG=<%= $mkeventd_syslog_str %>
+CONFIG_MKEVENTD_SYSLOG_TCP=<%= $mkeventd_syslog_tcp_str %>
+CONFIG_MULTISITE_AUTHORISATION=<%= $multisite_authorisation_str %>
+CONFIG_MULTISITE_COOKIE_AUTH=<%= $multisite_cookie_auth_str %>
+CONFIG_NAGIOS_THEME=<%= $nagios_theme %>
+CONFIG_NAGVIS_URLS=<%= %nagvis_urls %>
+CONFIG_NSCA=<%= nsca_str %>
+CONFIG_NSCA_TCP_PORT=<%= nsca_tcp_port %>
+CONFIG_PNP4NAGIOS=<%= $pnp4nagios_str %>
+CONFIG_TMPFS=<%= $tmpfs_str %>
+

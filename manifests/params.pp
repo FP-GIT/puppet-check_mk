@@ -5,6 +5,7 @@ class check_mk::params {
   $package          = undef
   $filestore        = undef
   $site             = undef
+  $omd_site_path    = '/opt/omd/sites'
 
   # OS specific variables
   case $::osfamily {
@@ -39,6 +40,8 @@ class check_mk::params {
   $nagvis_urls              = 'check_mk'
   $pnp4nagios               = true
   $livestatus_tcp           = false
+  $livestatus_tcp_port      = 6557
   $nsca                     = false
+  $nsca_tcp_port            = 5667
 
 }
