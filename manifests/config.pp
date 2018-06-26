@@ -29,71 +29,71 @@ class check_mk::config (
     validate_email_address($admin_mail)
   }
 
-  #  Check_mk::Omd_setting {
-  #    site => $site,
-  #  }
+  Check_mk::Omd_config {
+    site => $site,
+  }
 
-  check_mk::omd_setting { 'ADMIN_MAIL':
+  check_mk::omd_config { 'ADMIN_MAIL':
     value => $admin_mail,
   }
-  check_mk::omd_setting { 'AUTOSTART':
+  check_mk::omd_config { 'AUTOSTART':
     value => $autostart,
   }
-  check_mk::omd_setting { 'CORE':
+  check_mk::omd_config { 'CORE':
     value => $core,
   }
-  check_mk::omd_setting { 'CRONTAB':
+  check_mk::omd_config { 'CRONTAB':
     value => $crontab,
   }
-  check_mk::omd_setting { 'TMPFS':
+  check_mk::omd_config { 'TMPFS':
     value => $tmpfs,
   }
-  check_mk::omd_setting { 'APACHE_MODE':
+  check_mk::omd_config { 'APACHE_MODE':
     value => $apache_mode,
   }
-  check_mk::omd_setting { 'APACHE_TCP_ADDRESS':
+  check_mk::omd_config { 'APACHE_TCP_ADDRESS':
     value => $apache_tcp_address,
   }
-  check_mk::omd_setting { 'APACHE_TCP_PORT':
+  check_mk::omd_config { 'APACHE_TCP_PORT':
     value => $apache_tcp_port,
   }
-  check_mk::omd_setting { 'DEFAULT_GUI':
+  check_mk::omd_config { 'DEFAULT_GUI':
     value => $default_gui,
   }
-  check_mk::omd_setting { 'DOKUWIKI_AUTH':
+  check_mk::omd_config { 'DOKUWIKI_AUTH':
     value => $dokuwiki_auth,
   }
-  check_mk::omd_setting { 'MULTISITE_AUTHORISATION':
+  check_mk::omd_config { 'MULTISITE_AUTHORISATION':
     value => $multisite_authorisation,
   }
-  check_mk::omd_setting { 'MULTISITE_COOKIE_AUTH':
+  check_mk::omd_config { 'MULTISITE_COOKIE_AUTH':
     value => $multisite_cookie_auth,
   }
-  check_mk::omd_setting { 'NAGIOS_THEME':
+  check_mk::omd_config { 'NAGIOS_THEME':
     value => $nagios_theme,
   }
-  check_mk::omd_setting { 'MKEVENTD':
+  check_mk::omd_config { 'MKEVENTD':
     value => $mkeventd,
   }
-  check_mk::omd_setting { 'MKEVENTD_SNMPTRAP':
+  check_mk::omd_config { 'MKEVENTD_SNMPTRAP':
     value => $mkeventd_snmptrap,
   }
-  check_mk::omd_setting { 'MKEVENTD_SYSLOG':
+  check_mk::omd_config { 'MKEVENTD_SYSLOG':
     value => $mkeventd_syslog,
   }
-  check_mk::omd_setting { 'MKEVENTD_SYSLOG_TCP':
+  check_mk::omd_config { 'MKEVENTD_SYSLOG_TCP':
     value => $mkeventd_syslog_tcp,
   }
-  check_mk::omd_setting { 'NAGVIS_URLS':
+  check_mk::omd_config { 'NAGVIS_URLS':
     value => $nagvis_urls,
   }
-  check_mk::omd_setting { 'PNP4NAGIOS':
+  check_mk::omd_config { 'PNP4NAGIOS':
     value => $pnp4nagios,
   }
-  check_mk::omd_setting { 'LIVESTATUS_TCP':
+  check_mk::omd_config { 'LIVESTATUS_TCP':
     value => $livestatus_tcp,
   }
-  check_mk::omd_setting { 'NSCA':
+  check_mk::omd_config { 'NSCA':
     value => $nsca,
   }
 
