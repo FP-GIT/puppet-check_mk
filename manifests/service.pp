@@ -19,7 +19,7 @@ class check_mk::service (
     ensure => 'running',
     enable => true,
   }
-  ~>exec { 'start ${site}':
+  ~>exec { "start ${site}":
     command => "/usr/bin/omd start ${site}",
     unless  => "/usr/bin/omd status -b ${site} | /bin/grep \"OVERALL 0\"",
   }
