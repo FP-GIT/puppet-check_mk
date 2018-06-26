@@ -10,10 +10,10 @@ define check_mk::omd_config (
     $value_string = $value
   }
 
-  $cmd = "/usr/bin/omd config ${site} set ${setting} ${value}"
+  $cmd = "/usr/bin/omd config ${site} set ${setting} ${value_string}"
   $check_cmd = "/usr/bin/omd config ${site} show ${setting}"
   exec { $cmd:
-    onlyif => "/bin/bash -c \'[ `${check_cmd}` != \"${value}\" ]\'",
+    onlyif => "/bin/bash -c \'[ `${check_cmd}` != \"${value_string}\" ]\'",
   }
 
 }
