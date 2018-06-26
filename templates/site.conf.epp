@@ -3,7 +3,7 @@ CONFIG_APACHE_MODE=<%= $::check_mk::config::apache_mode %>
 CONFIG_APACHE_TCP_ADDR=<%= $::check_mk::config::apache_tcp_address %>
 CONFIG_APACHE_TCP_PORT=<%= $::check_mk::config::apache_tcp_port %>
 CONFIG_AUTOSTART=<%= $::check_mk::config::autostart_str %>
-CONFIG_CORE=<%= $::check_mk::config:::core %>
+CONFIG_CORE=<%= $::check_mk::config::core %>
 CONFIG_CRONTAB=<%= $::check_mk::config::crontab_str %>
 CONFIG_DEFAULT_GUI=<%= $::check_mk::config::default_gui %>
 CONFIG_DOKUWIKI_AUTH=<%= $::check_mk::config::dokuwiki_auth_str %>
