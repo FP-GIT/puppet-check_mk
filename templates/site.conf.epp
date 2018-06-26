@@ -16,9 +16,9 @@ CONFIG_MKEVENTD_SYSLOG_TCP=<%= $mkeventd_syslog_tcp_str %>
 CONFIG_MULTISITE_AUTHORISATION=<%= $multisite_authorisation_str %>
 CONFIG_MULTISITE_COOKIE_AUTH=<%= $multisite_cookie_auth_str %>
 CONFIG_NAGIOS_THEME=<%= $nagios_theme %>
-CONFIG_NAGVIS_URLS=<%= %nagvis_urls %>
-CONFIG_NSCA=<%= nsca_str %>
-CONFIG_NSCA_TCP_PORT=<%= nsca_tcp_port %>
+CONFIG_NAGVIS_URLS=<%= $nagvis_urls %>
+CONFIG_NSCA=<%= $nsca_str %>
+CONFIG_NSCA_TCP_PORT=<%= $nsca_tcp_port %>
 CONFIG_PNP4NAGIOS=<%= $pnp4nagios_str %>
 CONFIG_TMPFS=<%= $tmpfs_str %>
 
