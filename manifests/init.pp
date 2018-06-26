@@ -5,14 +5,12 @@ class check_mk (
   $httpd_service    = $check_mk::params::httpd_service,
   $package          = $check_mk::params::package,
   $site             = $check_mk::params::site,
-  $workspace        = $check_mk::params::workspace,
 ) inherits check_mk::params {
 
   class { 'check_mk::install':
     filestore => $filestore,
     package   => $package,
     site      => $site,
-    workspace => $workspace,
   }
   class { 'check_mk::config':
     host_groups => $host_groups,
