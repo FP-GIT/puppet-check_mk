@@ -20,6 +20,7 @@ class check_mk::agent::config (
   Array[Stdlib::Ip_address]   $ip_whitelist = $::check_mk::agent::ip_whitelist,
   Stdlib::Port::Unprivileged  $port         = $::check_mk::agent::port,
   String                      $user         = $::check_mk::agent::user,
+  Stdlib::ABsolutepath        $server       = $::check_mk::agent::server,
 ) inherits check_mk::agent {
 
   if $ip_whitelist {
