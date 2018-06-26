@@ -31,9 +31,9 @@ service check_mk
 	wait           = no
 	user           = <%= $::check_mk::agent::config::user %>
 	server         = <%= $::check_mk::agent::config::server %>
-<% if $::check_mk::agent::config::only_from -%>
+<% if $::check_mk::agent::config::only_from { -%>
 	only_from      = 127.0.0.1 <%= $::check_mk::agent::config::only_from %>
-<% end -%>
+<% } -%>
 	log_on_success =
 	disable        = no
 }
