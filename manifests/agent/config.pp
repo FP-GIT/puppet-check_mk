@@ -12,22 +12,14 @@
 #   Check_mk port
 #   Default: undef
 #
-# [*server_dir*]
-#   Check_mk server directory.
-#   Default: undef
-#
-# [*use_cache*]
-#   Enable cache.
-#   Default: undef
-#
 # [*user*]
 #   Check_mk user.
 #   Default: undef
 #
 class check_mk::agent::config (
-  $ip_whitelist = $::check_mk::agent::ip_whitelist,
-  $port         = $::check_mk::agent::port,
-  $user         = $::check_mk::agent::user,
+  Array[Stdlib::Ip_address]   $ip_whitelist = $::check_mk::agent::ip_whitelist,
+  Stdlib::Port::Unprivileged  $port         = $::check_mk::agent::port,
+  String                      $user         = $::check_mk::agent::user,
 ) inherits check_mk::agent {
 
   if $ip_whitelist {
