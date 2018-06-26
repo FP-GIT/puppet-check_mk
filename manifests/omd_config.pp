@@ -1,7 +1,7 @@
 define check_mk::omd_config (
   String $site,
   String $setting = $title,
-  String $value,
+  Data $value,
 ) {
 
   $cmd = "omd config ${site} set ${setting} ${value}"
