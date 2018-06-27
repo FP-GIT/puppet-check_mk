@@ -3,9 +3,9 @@ class check_mk::agent::install (
   String                        $package    = $::check_mk::agent::package,
 ) inherits check_mk::agent {
 
-  ensure_package { 'xinetd', {
+  ensure_package ( 'xinetd', {
     ensure => present,
-  }}
+  })
 
   if $filestore {
     $package_name = "${filestore}/${package}"
