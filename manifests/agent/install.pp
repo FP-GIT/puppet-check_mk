@@ -13,7 +13,7 @@ class check_mk::agent::install (
 
   @::check_mk::agent::install::cmk_agent_dependencies { 'cmk_agent_dependencies': }
 
-  realize( Cmk_agent_dependencies['cmk_agent_dependencies'] )
+  realize( ::Check_mk::Agent::Install::Cmk_agent_dependencies['cmk_agent_dependencies'] )
 
   if $filestore {
     $package_name = "${filestore}/${package}"
