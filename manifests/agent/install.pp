@@ -3,11 +3,11 @@ class check_mk::agent::install (
   String                        $package    = $::check_mk::agent::package,
 ) inherits check_mk::agent {
 
-  if ! defined(Package['xinetd']) {
-    package { 'xinetd':
-      ensure => present,
-    }
+  @package { 'xinetd':
+    ensure => present,
   }
+
+  realize( Package['xinetd'] )
   ->if $filestore {
     $package_name = "${filestore}/${package}"
     deb_package{ $package_name: }
