@@ -11,7 +11,7 @@ class check_mk::agent::install (
     realize( Package['xinetd'] )
   }
 
-  @cmk_agent_dependencies { 'cmk_agent_dependencies': }
+  @::check_mk::agent::install::cmk_agent_dependencies { 'cmk_agent_dependencies': }
 
   realize( Cmk_agent_dependencies['cmk_agent_dependencies'] )
 
