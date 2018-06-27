@@ -7,7 +7,8 @@ class check_mk::agent::install (
     ensure => present,
   })
 
-  if $filestore {
+  Package['xinetd']
+  ->if $filestore {
     $package_name = "${filestore}/${package}"
     deb_package{ $package_name:
       require => Package['xinetd']
