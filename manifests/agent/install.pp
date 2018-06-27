@@ -8,15 +8,18 @@ class check_mk::agent::install (
   }
 
   realize( Package['xinetd'] )
-  ->if $filestore {
+  if $filestore {
     $package_name = "${filestore}/${package}"
-    deb_package{ $package_name: }
+    deb_package{ $package_name:
+      require => Package['xinetd']
+    }
   }
   else {
     $package_name = $package
     package { $package_name:
       ensure  => present,
       name    => $check_mk_agent,
+      require => Package['xinetd']
     }
   }
 }
