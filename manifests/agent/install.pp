@@ -7,7 +7,14 @@ class check_mk::agent::install (
     ensure => present,
   }
 
-  realize( Package['xinetd'] )
+  define cmk_agent_dependencies {
+    realize( Package['xinetd'] )
+  }
+
+  @cmk_agent_depencies { 'cmk_agent_dependencies': }
+
+  realize( Cmk_agent_depencies['cmk_agent_depencies'] )
+
   if $filestore {
     $package_name = "${filestore}/${package}"
     deb_package{ $package_name:
