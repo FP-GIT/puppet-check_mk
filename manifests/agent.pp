@@ -4,7 +4,7 @@ class check_mk::agent (
   Array[Stdlib::Ip_address]     $ip_whitelist = [],
   Stdlib::Port::Unprivileged    $port         = 6556,
   String                        $user         = 'root',
-  Stdlib::Absolutepath          $server       = '/user/bin/check_mk_agent',
+  Stdlib::Absolutepath          $server       = '/usr/bin/check_mk_agent',
 ) {
 
   include check_mk::agent::install
