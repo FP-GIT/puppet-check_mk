@@ -1,12 +1,13 @@
 class check_mk::params {
 
   # common variables
-  $checkmk_service  = 'omd'
-  $package          = undef
-  $filestore        = undef
-  $sites            = []
-  $omd_site_path    = '/opt/omd/sites'
-  $cmk_confd_path   = 'etc/check_mk/conf.d'
+  $checkmk_service    = 'omd'
+  $package            = undef
+  $filestore          = undef
+  $sites              = []
+  $omd_site_path      = '/opt/omd/sites'
+  $cmk_confd_path     = 'etc/check_mk/conf.d'
+  $cmk_htpasswd_path  = 'etc/htpasswd'
 
   # OS specific variables
   case $::osfamily {
