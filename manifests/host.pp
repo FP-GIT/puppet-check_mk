@@ -1,18 +1,24 @@
 define check_mk::host (
-  $target = undef,
-  $host_tags = [],
+  String                $site,
+  Stdlib::Fqdn          $fqdn           = $title,
+  Array[String]         $host_tags      = [],
 ) {
-  $host = $title
+
   if size($host_tags) > 0 {
     $taglist = join($host_tags,'|')
-    $entry = "${host}|${taglist}"
+    $entry = "${fqdn}|${taglist}"
   }
   else {
-    $entry = $host
+    $entry = $fqdn
   }
-  concat::fragment { "check_mk-${host}":
-    target  => $target,
-    content => "  '${entry}',\n",
-    order   => 11,
+
+  $conf_dir = Check_mk::Site[$site]['conf_dir']
+
+  file { "${conf_dir}/${fqdn}.mk":
+    ensure  => file,
+    owner   => $site,
+    group   => $site,
+    content => epp('check_mk/host.mk.epp'),
   }
+
 }

@@ -4,8 +4,9 @@ class check_mk::params {
   $checkmk_service  = 'omd'
   $package          = undef
   $filestore        = undef
-  $site             = undef
+  $sites            = []
   $omd_site_path    = '/opt/omd/sites'
+  $cmk_confd_path   = 'etc/check_mk/conf.d'
 
   # OS specific variables
   case $::osfamily {

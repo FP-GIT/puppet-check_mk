@@ -1,7 +1,6 @@
 class check_mk::install (
-  $site,
-  $filestore = undef,
-  $package = undef,
+  Stdlib::Filesource  $filestore,
+  String              $package,
 ) {
 
   if $filestore {
@@ -13,10 +12,6 @@ class check_mk::install (
     package { $package_name:
       ensure => installed,
     }
-  }
-  ->exec { 'omd-create-site':
-    command => "/usr/bin/omd create ${site}",
-    unless  => "/usr/bin/omd sites | /bin/grep ${site}",
   }
 
 }

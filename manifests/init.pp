@@ -3,7 +3,7 @@ class check_mk (
   Stdlib::Filesource          $filestore                = $check_mk::params::filestore,
   Enum['httpd', 'apache2']    $httpd_service            = $check_mk::params::httpd_service,
   String                      $package                  = $check_mk::params::package,
-  String                      $site                     = $check_mk::params::site,
+  Array[String]               $sites                    = $check_mk::params::sites,
   Stdlib::Absolutepath        $omd_site_path            = $check_mk::params::omd_site_path,
   Optional[String]            $admin_mail               = $check_mk::params::admin_mail,
   Boolean                     $autostart                = $check_mk::params::autostart,
@@ -69,6 +69,12 @@ class check_mk (
     checkmk_service => $checkmk_service,
     httpd_service   => $httpd_service,
     site            => $site,
+  }
+
+  $sites.each |String $site| {
+    check_mk::site{ $site:
+      require =>  Class['check_mk::install'];
+    }
   }
 
 }
