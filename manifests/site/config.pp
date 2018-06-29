@@ -1,6 +1,9 @@
-class check_mk::config (
-  String                      $site,
+define check_mk::site::config (
+  String                      $site = $title,
   Stdlib::Absolutepath        $omd_site_path,
+  String                      $omd_siteconf_path,
+  String                      $cmk_htpasswd_path,
+  String                      $siteadmin_passwordhash,
   Optional[String]            $admin_mail,
   Boolean                     $autostart,
   Enum['nagios', 'icinga']    $core,
@@ -28,8 +31,20 @@ class check_mk::config (
   Boolean                     $nsca,
   Stdlib::Port::Unprivileged  $nsca_tcp_port,
 ) {
+
+  assert_private( "This class is private. Please don't instantiate yourself." )
+
   if $admin_mail {
     validate_email_address($admin_mail)
+  }
+
+  $site_path = "${omd_site_path}/${site}"
+  $omd_siteconf = "${site_path}/${omd_siteconf_path}"
+  $cmk_htpasswd = "${site_path}/${cmk_htpasswd_path}"
+
+  htpasswd { 'cmkadmin':
+    cryptpasswd => $siteadmin_passwordhash,
+    target      => $cmk_htpasswd,
   }
 
   $autostart_str                = bool2str($autostart, 'on', 'off')
@@ -46,12 +61,13 @@ class check_mk::config (
   $pnp4nagios_str               = bool2str($pnp4nagios, 'on', 'off')
   $tmpfs_str                    = bool2str($tmpfs, 'on', 'off')
 
-  $site_conf = "${omd_site_path}/${site}/etc/omd/site.conf"
-  file { $site_conf:
+  file { $omd_siteconf:
     ensure  => 'file',
     content => epp('check_mk/site.conf.epp'),
     owner   => $site,
     group   => $site,
     mode    => '0644',
   }
+
 }
+

@@ -1,6 +1,6 @@
 class check_mk::install (
-  Stdlib::Filesource  $filestore,
-  String              $package,
+  Stdlib::Filesource  $filestore  = $check_mk::filestore,
+  String              $package    = $check_mk::package,
 ) {
 
   if $filestore {
